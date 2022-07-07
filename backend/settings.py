@@ -1,7 +1,9 @@
 
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
+
 import django_heroku
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -73,8 +75,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ORIGIN_WHITELIST = ('http://localhost:3000',
-                         'https://todo-react-django-frontend.vercel.app/')
+# CORS_ORIGIN_WHITELIST = ('http://localhost:3000',
+#                          'https://todo-react-django-frontend.vercel.app/')
 
 # CORS_ORIGIN_WHITELIST = ('*')
 
@@ -82,13 +84,25 @@ CORS_ORIGIN_WHITELIST = ('http://localhost:3000',
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+import os
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": 'django.db.backends.postgresql_psycopg2',
+        "NAME": os.environ['DB_NAME'],
+        "USER": os.environ['DB_USER'],
+        "PASSWORD": os.environ['DB_PW'],
+        "HOST": os.environ['DB_HOST'],
+        "PORT": os.environ["DB_PORT"],
     }
 }
-
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
